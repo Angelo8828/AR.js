@@ -8180,7 +8180,7 @@ AFRAME.registerComponent('arjs-anchor', {
 			//		update arProfile
 			//////////////////////////////////////////////////////////////////////////////
 			var arProfile = arjsSystem._arProfile
-			
+
 			// arProfile.changeMatrixMode('modelViewMatrix')
 			arProfile.changeMatrixMode(_this.data.changeMatrixMode)
 
@@ -8195,16 +8195,20 @@ AFRAME.registerComponent('arjs-anchor', {
 				arProfile.defaultMarkerParameters.markersAreaEnabled = false
 			}else if( _this.data.preset === 'area' ){
 				arProfile.defaultMarkerParameters.type = 'barcode'
-				arProfile.defaultMarkerParameters.barcodeValue = 1001	
+				arProfile.defaultMarkerParameters.barcodeValue = 1001
 				arProfile.defaultMarkerParameters.markersAreaEnabled = true
-			}else {
+			}else if( _this.data.preset === 'custom' ){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = _this.data.patternUrl;
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+            }else {
 				// console.assert( this.data.preset === '', 'illegal preset value '+this.data.preset)
-			}		
+			}
 
 			//////////////////////////////////////////////////////////////////////////////
 			//		create arAnchor
 			//////////////////////////////////////////////////////////////////////////////
-			
+
 			var arSession = arjsSystem._arSession
 			var arAnchor = _this._arAnchor = new ARjs.Anchor(arSession, arProfile.defaultMarkerParameters)
 
@@ -8225,7 +8229,7 @@ AFRAME.registerComponent('arjs-anchor', {
 				}
 				// create anchorDebugUI
 				var anchorDebugUI = new ARjs.AnchorDebugUI(arAnchor)
-				containerElement.appendChild(anchorDebugUI.domElement)		
+				containerElement.appendChild(anchorDebugUI.domElement)
 			}
 		}, 1000/60)
 	},
@@ -8248,7 +8252,7 @@ AFRAME.registerComponent('arjs-anchor', {
 		//		honor pose
 		//////////////////////////////////////////////////////////////////////////////
 		var arWorldRoot = this._arAnchor.object3d
-		arWorldRoot.updateMatrixWorld(true)		
+		arWorldRoot.updateMatrixWorld(true)
 		arWorldRoot.matrixWorld.decompose(this.el.object3D.position, this.el.object3D.quaternion, this.el.object3D.scale)
 
 		//////////////////////////////////////////////////////////////////////////////
@@ -8298,7 +8302,7 @@ AFRAME.registerPrimitive('a-camera-static', AFRAME.utils.extendDeep({}, AFRAME.p
 //////////////////////////////////////////////////////////////////////////////
 //		backward compatibility
 //////////////////////////////////////////////////////////////////////////////
-// FIXME 
+// FIXME
 AFRAME.registerPrimitive('a-marker', AFRAME.utils.extendDeep({}, AFRAME.primitives.getMeshMixin(), {
 	defaultComponents: {
 		'arjs-anchor': {},
