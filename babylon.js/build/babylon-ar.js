@@ -48994,7 +48994,7 @@ THREEx.ArMarkerControls.prototype._initArtoolkit = function(){
 		var arController = _this.context.arController
 		console.assert(arController !== null )
 
-        arController.setPattRatio(0.8);
+        arController.setPattRatio(0.7);
 
 		// start tracking this pattern
 		if( _this.parameters.type === 'pattern' ){
